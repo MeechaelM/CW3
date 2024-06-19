@@ -43,4 +43,4 @@ def message(meaning):
     to = mask_in_message(meaning.get('to'))
     amount = meaning.get('operationAmount').get('amount')
     currency = meaning.get('operationAmount').get('currency').get('name')
-    return f'{date} {description}/n{from_}{to}/n{amount}{currency}'
+    return f'{date} {description}\n{from_}{to}\n{amount}{currency}'
