@@ -17,11 +17,17 @@ def format_date(date):
 
 def mask_card_number(card_number: str):
     """маскировка номера карты в формате XXXX XX** **** XXXX"""
-    return f'{card_number[:4]} {card_number[4: 6]} ** **** {card_number[-4:]}' if card_number.isdigit() and len(card_number) == 16 else ValueError('Номер карты неверный')
+    if card_number.isdigit() and len(card_number) == 16:
+        return f'{card_number[:4]} {card_number[4: 6]}** **** {card_number[-4:]}'
+    else:
+        raise ValueError('Номер карты неверный')
 
 def mask_account_number(account_number: str):
     """маскировка номера счета в формате **XXXX"""
-    return f'**{account_number[:4]}' if account_number.isdigit() and len(account_number) > 4 else ValueError('номер неверный')
+    if account_number.isdigit() and len(account_number) == 20:
+        return f'**{account_number[-4:]}'
+    else:
+        raise ValueError('номер неверный')
 
 def mask_in_message(num):
     """Скрывает номера в сообщении"""
@@ -39,7 +45,7 @@ def message(meaning):
     date = format_date(meaning.get('date'))
     description = meaning.get('description')
     from_ = mask_in_message(meaning.get('from_'))
-    from_ = '{from_} -> ' if from_ else ''
+    from_ = f'{from_} -> ' if from_ else ''
     to = mask_in_message(meaning.get('to'))
     amount = meaning.get('operationAmount').get('amount')
     currency = meaning.get('operationAmount').get('currency').get('name')
